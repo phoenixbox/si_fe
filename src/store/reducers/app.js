@@ -9,7 +9,6 @@
 import C from '../../constants'
 import Immutable from 'immutable'
 import { createReducer } from '../../utils'
-import plans from '../data/plans'
 
 if (process.env.NODE_ENV === 'test') {
   global.__API_ROOT__ = ''
@@ -21,10 +20,7 @@ const initialState = Immutable.fromJS({
   data: {
     platform: 'web',
     version: '0.0.1',
-    API_ROOT: __API_ROOT__,
-    plans: require('../data/plans.json'),
-    prices: require('../data/prices.json'),
-    regions: require('../data/regions.json')
+    API_ROOT: __API_ROOT__
   }
 })
 

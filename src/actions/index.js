@@ -1,7 +1,7 @@
 import * as app from './app'
-import * as doctor from './doctor'
+import * as plan from './plan'
 
-export default {
+module.exports = {
   ...app,
-  ...doctor
+  ...plan
 }

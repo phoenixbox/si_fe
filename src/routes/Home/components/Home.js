@@ -2,24 +2,31 @@ import React, {
   Component,
   PropTypes
 } from 'react'
+import Slider from 'rc-slider'
+import {
+  PlansIndex,
+  Loader
+} from '../../../components'
+console.log('PLANSINDEX', PlansIndex)
 
 // Redux
-import actions from '../../../actions'
-const {
-  fetchDoctors
-} = actions
+import {
+  fetchPlans
+} from '../../../actions'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 const mapStateToProps = (state) => {
   return {
-    app: state.app.get('data').toJS()
+    app: state.app.get('data').toJS(),
+    plans: state.plan.toJS()
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(
     {
+      fetchPlans
     },
     dispatch
   )
@@ -28,69 +35,146 @@ const mapDispatchToProps = (dispatch) => ({
 class Home extends Component {
   constructor(props) {
     super(props)
+    this.controlChange = this.controlChange.bind(this)
+    this.inputHandler = this.inputHandler.bind(this)
 
     this.state = {
       age: null,
-      zip: null
+      zip_code: null,
+      price: 0
     }
-
   }
 
-  filtersBar() {
-    const {
-      age, zip
-    } = this.props
+  controlChange (val) {
+    this.setState({ price: val })
+  }
+
+  priceSlider() {
+    const control = {
+      max: 1000,
+      step: 10,
+      min: 250
+    }
+    const { price } = this.state
+
+    const sliderProps = {
+      style: {
+        height: '30px',
+        backgroundColor: 'transparent',
+        width: '100%',
+        margin: '0 auto'
+      },
+      value: price,
+      orientation: 'horizontal',
+      min: control.min,
+      max: control.max,
+      step: control.step,
+      disabled: false,
+      withBars: true,
+      onChange: this.controlChange
+    }
+
+    const description = 'Adjust to filter plans by price'
 
     return (
-      <ul className='list bb b--black-10 pv2'>
-        <li className='dib'>
-          <label>Age</label>
-          <input type='number' pattern='[0-9]*' onChange={(e) => {
-              this.setState({age: e.currentTarget.value})
-            }} value={age} />
-        </li>
-        <li className='dib'>
-          <label>Zip</label>
-            <input type='number' pattern='[0-9]*' onChange={(e) => {
-                this.setState({zip: e.currentTarget.value})
-              }} value={zip} />
-        </li>
-      </ul>
+      <div className='slider-wrapper'>
+        <div className="f6 lh-copy">{description}</div>
+        <Slider {...sliderProps}>
+          <span className='handle-value'></span>
+        </Slider>
+      </div>
+    )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      age: prevAge,
+      zip_code: prevZip
+    } = prevState
+    const {
+      age,
+      zip_code
+    } = this.state
+    const { plans } = prevProps
+
+    if (!plans.isLoading && age && zip_code) {
+      const minReqMet = age && zip_code.length === 5
+      const changed = age !== prevAge || zip_code !== prevZip
+
+      if (minReqMet && changed) {
+        const query = {age, zip_code}
+        this.props.actions.fetchPlans(query)
+      }
+    }
+  }
+
+  inputHandler(e) {
+    const target = e.currentTarget
+    const updatedState = {}
+    let value
+    if (target.name === 'age' || target.name === 'zip_code') {
+      const re = new RegExp(target.pattern)
+      value = target.value.match(re)[0]
+    }
+    updatedState[target.name] = value
+    this.setState(updatedState)
+  }
+
+  controlsBar () {
+    const {
+      age, zip_code
+    } = this.state
+    const inputProps = {
+      type: 'number',
+      className: 'f5 input-reset ba b--black-20 pa2 mb2 db w-100',
+      onChange: this.inputHandler
+    }
+    const ageInputProps = Object.assign({name: 'age', pattern: '[0-9]{0,3}', max: "100", value: age}, inputProps)
+    const zipInputProps = Object.assign({name: 'zip_code', pattern: '[0-9]{0,5}', value: zip_code}, inputProps)
+
+    return (
+      <form className="pa2 black-80">
+        <div className="measure">
+          <label htmlFor="age" className="f6 b db mb2">Age</label>
+          <input {...ageInputProps} />
+        </div>
+        <div className="measure">
+          <label htmlFor="zip_code" className="f6 b db mb2">Zip Code</label>
+          <input {...zipInputProps} />
+        </div>
+        <div className="measure">
+          {this.priceSlider()}
+        </div>
+      </form>
     )
   }
 
   carrierOptions() {
-    const { plans, prices, regions } = this.props
-    const {age, zip} = this.state
+    const { plans } = this.props
+    const {age, zip_code} = this.state
     let content
 
-    if (age && zip) {
-      const matchingNodes = helpers.matchingCarriers()
-
-      const nodes = Array(4).fill({carrier: 'Aetna'}).map((node, nodeIx) => {
-        return (
-          <article key={nodeIx} className="dt w-100 bb b--black-05 pb2 mt2" href="#0">
-            <div className="dtc w2 w3-ns v-mid">
-              <img src="http://mrmrs.io/photos/p/2.jpg" className="ba b--black-10 db br-100 w2 w3-ns h2 h3-ns"/>
-            </div>
-            <div className="dtc v-mid pl3">
-              <h1 className="f6 f5-ns fw6 lh-title black mv0">{node.carrier}</h1>
-            </div>
-            <div className="dtc v-mid">
-              <form className="w-100 tr">
-                <button className="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black-60" type="submit">+ Follow</button>
-              </form>
-            </div>
-          </article>
-        )
-      })
-      content = <ul className='list'>{nodes}</ul>
+    if (plans.isLoading) {
+      content = <Loader header="Loading your plans..." />
     } else {
-      content = (
-        <div className="tc center">
-          <h5>Please enter your name and zip to get started</h5>
-        </div>
-      )
+      if (age && zip_code && zip_code.length === 5) {
+        if (plans.data.length) {
+          console.log('PLANS.DATA.LENGTH', plans.data.length)
+          content = <PlansIndex plans={plans.data} />
+        } else {
+          content = (
+            <div className="tc center">
+              <h5>No plans match your age & zip code</h5>
+            </div>
+          )
+        }
+      } else {
+        content = (
+          <div className="tc center">
+            <h5>Please enter your name and zip to get started</h5>
+          </div>
+        )
+      }
     }
     return content
   }
@@ -100,9 +184,8 @@ class Home extends Component {
 
     return (
       <div className='flx'>
-        {this.filtersBar()}
+        {this.controlsBar()}
         {this.carrierOptions()}
-        <button className="app__button fw5 mw5 center mt5">Click Me</button>
       </div>
     )
   }
