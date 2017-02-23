@@ -1,0 +1,35 @@
+@import 'base';
+
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Gotham', 'avenir next', avenir, helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+  color: $brand-text;
+}
+h1, h2, h3, h4, h5 {
+  color: $brand-text;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+.app__button {
+  @include appButton($brand-primary);
+
+  > a {
+    color: $brand-primary;
+    font-weight: $fw5;
+    text-decoration: none;
+  }
+
+  &:disabled {
+    background-color: transparentize($brand-primary, 0.9);
+  }
+}

@@ -1,0 +1,55 @@
+.flx {
+  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;
+
+  flex:1 1 auto;
+  min-width: 0;
+  min-height: 0;
+
+  flex-direction: column;
+}
+.flx-center {
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+}
+.flx-row {
+  @extend .flx;
+  flex-direction: row;
+}
+.flx-column {
+  @extend .flx;
+  flex-direction: column;;
+}
+.flx1 {
+  flex: $flx1
+}
+.flx2 {
+  flex: $flx2
+}
+.flx3 {
+  flex: $flx3
+}
+.flx4 {
+  flex: $flx4
+}
+.flx5 {
+  flex: $flx5
+}
+.flx6 {
+  flex: $flx6
+}
+.flx7 {
+  flex: $flx7
+}
+.flx8 {
+  flex: $flx8
+}
+.flx9 {
+  flex: $flx9
+}

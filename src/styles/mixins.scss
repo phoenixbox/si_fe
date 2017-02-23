@@ -1,0 +1,30 @@
+@import './variables/colors';
+@import './scales';
+
+@mixin assetBG($assetUrl, $minWidth, $minHeight) {
+  background: url($assetUrl) no-repeat center top;
+  min-width: $minWidth;
+  min-height: $minHeight;
+}
+@mixin buttonBasics($color) {
+  font-size: 1rem;
+  height: 2.5rem;
+  line-height: 2.25rem;
+  color: white;
+  background: $color;
+  border: 1px solid transparentize($color, 0.2);
+  border-radius: 4px 4px 4px 4px;
+  width: 100%;
+  font-weight: $fw5;
+  cursor: pointer;
+}
+@mixin appButton($color) {
+  @include buttonBasics($color);
+
+  &:focus,
+  &:hover:enabled,
+  &:focus:enabled
+  &:hover {
+    background: darken($color, 3) none repeat scroll 0% 0% / auto padding-box border-box;
+  }
+}
