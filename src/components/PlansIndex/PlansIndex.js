@@ -4,8 +4,9 @@ import React, {
 } from 'react'
 // Components
 import ReactList from 'react-list'
-import { PlanCard } from '..'
 import Dimensions from 'react-dimensions'
+import PlanCard from '../PlanCard'
+
 import _ from 'lodash'
 
 class PlansIndex extends Component {
@@ -28,7 +29,7 @@ class PlansIndex extends Component {
     const plan = plans[index]
 
     return (
-      <div className='bb b--black-10 bg-white' key={key}>
+      <div className='bg-white pa1' key={key}>
         <PlanCard {...plan} />
       </div>
     )
@@ -46,13 +47,21 @@ class PlansIndex extends Component {
       height: containerHeight,
       width: containerWidth
     }
-
-    return (
-      <div style={wrapperStyles}>
+    let content
+    if (plans.length) {
+      content = (
         <ReactList
           itemRenderer={this.renderRow}
           length={plans.length}
           type='variable' />
+      )
+    } else {
+      content = <h1>Nothing</h1>
+    }
+
+    return (
+      <div style={wrapperStyles}>
+        {content}
       </div>
     )
   }

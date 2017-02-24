@@ -7,7 +7,6 @@ import {
   PlansIndex,
   Loader
 } from '../../../components'
-console.log('PLANSINDEX', PlansIndex)
 
 // Redux
 import {
@@ -159,7 +158,7 @@ class Home extends Component {
     } else {
       if (age && zip_code && zip_code.length === 5) {
         if (plans.data.length) {
-          console.log('PLANS.DATA.LENGTH', plans.data.length)
+          console.log('PLANS.DATA.LENGTH', plans.data[0])
           content = <PlansIndex plans={plans.data} />
         } else {
           content = (

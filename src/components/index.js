@@ -5,7 +5,7 @@ import Loader from './Loader'
 
 module.exports = {
   Header,
-  PlansIndex,
   Loader,
-  PlanCard
+  PlanCard,
+  PlansIndex
 }

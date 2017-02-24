@@ -1,3 +1,4 @@
 import PlanCard from './PlanCard'
+console.log('PLANCARD INDEX', PlanCard)
 
-export default PlanCard
+module.exports = PlanCard
