@@ -6,6 +6,7 @@ import React, {
 import ReactList from 'react-list'
 import Dimensions from 'react-dimensions'
 import PlanCard from '../PlanCard'
+import EmptyWell from '../EmptyWell'
 
 import _ from 'lodash'
 
@@ -56,11 +57,11 @@ class PlansIndex extends Component {
           type='variable' />
       )
     } else {
-      content = <h1>Nothing</h1>
+      content = <EmptyWell title="No Matching Plans" />
     }
 
     return (
-      <div style={wrapperStyles}>
+      <div style={wrapperStyles} className='pt2'>
         {content}
       </div>
     )

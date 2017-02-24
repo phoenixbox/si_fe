@@ -61,14 +61,14 @@ class PlanCard extends Component {
     const infoNodes = planKeys.map((key, ix) => {
       const label = _.startCase(key.replace(/_/g,' '))
       let classes = classnames({
-        "fl fn-l w-100 dib-l w-auto-l mr5-l": true,
+        "fl fn-l dib-ns w-100 w-50-ns": true,
         "mt2": ix > 0
       })
       return (
-        <div key={key} className={classes}>
-          <div className="f5 fw6 ml0 black-60">{label}</div>
-          <div className="f6 fw4 ml0 mt1">{this.props.plan[key]}</div>
-        </div>
+        <dl key={key} className={classes}>
+          <dd className="f5 fw6 ml0 black-60">{label}</dd>
+          <dd className="f6 fw4 ml0 mt1">{this.props.plan[key]}</dd>
+        </dl>
       )
     })
     return (
