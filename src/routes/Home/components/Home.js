@@ -64,7 +64,7 @@ class Home extends Component {
     } = this.state
     let max = 0
     let disabled = true
-    let description = `Enter an age an zip code to enable filters`
+    let description = `Enter an age and zip code to enable filters`
     if (plans.data.length) {
       description = `Adjust to filter plans by price`
       disabled = false
@@ -92,13 +92,15 @@ class Home extends Component {
       onChange: this.controlChange
     }
 
-
     return (
       <div className={sliderClasses}>
         <div className="f6 lh-copy">{description}</div>
-        <Slider {...sliderProps}>
-          <span className='handle-value'></span>
-        </Slider>
+        <div className="flx flx-row">
+          <Slider {...sliderProps}>
+            <span className='handle-value'></span>
+          </Slider>
+          <div className="f6 lh-copy pl3">{`$${price}`}</div>
+        </div>
       </div>
     )
   }

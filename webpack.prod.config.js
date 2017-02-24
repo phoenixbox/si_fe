@@ -22,7 +22,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: `[name].[chunkhash].js`,
-    publicPath: `https://pe-fe-boilerplate-staging.herokuapp.com/dist/`
+    publicPath: `https://si-fe-staging.herokuapp.com/dist/`
   },
 
   plugins: [

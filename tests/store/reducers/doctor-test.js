@@ -1,10 +1,10 @@
 import Immutable from 'immutable'
 import { assert } from 'chai'
-import { internals as Doctor } from '../../../src/store/reducers/doctor'
+import { internals as Plans } from '../../../src/store/reducers/plan'
 
 describe('reducers/doctor', function () {
   describe('actions', () => {
-    describe('UPDATE_DOCTOR_STORE', () => {
+    describe('UPDATE_PLAN_STORE', () => {
       it('sets the \'loading\' state', () => {
         const state = Immutable.fromJS({
           isLoading: false,
@@ -15,7 +15,7 @@ describe('reducers/doctor', function () {
         const payload = {
           isLoading: true
         }
-        const result = Doctor.UPDATE_DOCTOR_STORE(state, payload).toJS()
+        const result = Plans.UPDATE_PLAN_STORE(state, payload).toJS()
         assert.isTrue(result.isLoading)
       })
       it('updates the \'error\' state of the store', () => {
@@ -29,11 +29,11 @@ describe('reducers/doctor', function () {
         const payload = {
           error: null
         }
-        const result = Doctor.UPDATE_DOCTOR_STORE(state, payload).toJS()
+        const result = Plans.UPDATE_PLAN_STORE(state, payload).toJS()
         assert.isNull(result.error)
       })
     })
-    describe('SET_DOCTORS', () => {
+    describe('SET_PLANS', () => {
       it('adds orgs not found into the store', () => {
         const state = Immutable.fromJS({
           isLoading: false,
@@ -50,7 +50,7 @@ describe('reducers/doctor', function () {
           }
         ]
 
-        const result = Doctor.SET_DOCTORS(state, payload).toJS()
+        const result = Plans.SET_PLANS(state, payload).toJS()
         const target = {
           isLoading: false,
           error: null,
@@ -88,7 +88,7 @@ describe('reducers/doctor', function () {
           }
         ]
 
-        const result = Doctor.SET_DOCTORS(state, payload).toJS()
+        const result = Plans.SET_PLANS(state, payload).toJS()
         const target = {
           isLoading: false,
           error: null,

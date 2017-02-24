@@ -16,7 +16,7 @@ class EmptyWell extends Component {
     return (
       <div className='bg-black-05 tc br2 ma2' style={{height: '14rem'}}>
         <div className="flx justify-center h-100">
-          <div className="f3">{title}</div>
+          <div className="f4">{title}</div>
         </div>
       </div>
     )
